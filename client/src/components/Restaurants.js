@@ -12,12 +12,34 @@ const Restaurants = (props)=>{
   }, [])
 
   const renderRestaurants =()=>{
-    if(restaurants.length == 0){
+    if(restaurants.length === 0){
       return <p>no restaurants</p>
     }
     return restaurants.map(restaurant =>{
-      return <Restaurant key={restaurant.id} {...restaurant} />
+      return <Restaurant key={restaurant.id} {...restaurant} updatedRestaurants={updateRestaurants}  deleteRestaurant={deleteRestaurant}/>
     })
+  }
+
+  const addRestaurant = (restaurant) => {
+    let updatedRestaurants = [restaurant, ...restaurants]
+    setRestaurants(updatedRestaurants)
+  }
+
+  const updateRestaurants = (restaurant) =>{
+    let updatedRestaurants = restaurants.map(f => f.id === restaurant.id ? restaurant : f)
+    setRestaurants(updatedRestaurants)
+  }
+
+  const deleteRestaurant = async (id) => {
+    try {
+      let res = await axios.delete(`/api/restaurants/${id}`)
+
+      let updatedRestaurants = restaurants.filter(f=> f.id !== res.data.id)
+      setRestaurants(updatedRestaurants)
+    } catch(err) {
+      console.log(err)
+      alert('err occurred')
+    }
   }
 
   const getRestaurants = async ()=>{
@@ -32,7 +54,7 @@ const Restaurants = (props)=>{
     return (
       <>
         <h1>Restaurants</h1>
-        <RestaurantForm/>
+        <RestaurantForm addRestaurant={addRestaurant}/>
         {renderRestaurants()}
       </>
     )

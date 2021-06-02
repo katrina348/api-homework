@@ -9,7 +9,7 @@ Rails.application.routes.draw do
     get '/restaurants/:id', to: 'restaurants#show'
     put '/restaurants/:id', to: 'restaurants#update'
     patch'/restaurants/:id', to: 'restaurants#update'
-    # destroy'/restaurants/:id', to: 'restaurants#destroy'
+    delete'/restaurants/:id', to: 'restaurants#destroy'
 
     
   end
