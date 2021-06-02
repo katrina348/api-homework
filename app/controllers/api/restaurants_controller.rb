@@ -27,6 +27,10 @@ class Api::RestaurantsController < ApplicationController
     end
   end
 
+  def destroy
+    render json: @restaurant.destroy
+  end
+
   private
 
   def restaurant_params
